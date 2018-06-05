@@ -36,59 +36,49 @@ import android.widget.TextView;
 
 public class AndroidBatteryWithServiceActivity extends Activity {
 
-	private Timer atimer = null;
-	private TimerTask atask = null;
-	private Handler ahandler;
+	private Timer atimer = null;//电池信息定时更新timer
+	private TimerTask atask = null;//电池信息定时更新
+	private Handler ahandler;//电池信息定时更新
     private String TAG = "com.cfzz.abl";
-	static SQLiteDatabase db;
-	private Button button, button01, button02 = null;
-	private String fname;
-	public TextView TV, BQ, BV, BE, BT, BI, TimeIntervalName;
-	public EditText TimeIntervalInput;
-	public static int nti;
-
-	//public PowerManager pm = null;
-	//public PowerManager.WakeLock wl = null;
-	 
-	private int mq, mv, me;
-	private double mt;
-	
-	private ImageButton state = null;
-
-	public static final String TABLE_NAME = "Temp";
+	static SQLiteDatabase db;//电池信息数据库
+	private Button clearButton;//清空电池信息记录数据
+	private Button outputButton;//倒出电池信息记录数据
+	private Button screenOnButton;//屏幕常亮开关
+	private String fname;//csv文件名
+	public TextView TV, BI, TimeIntervalName;//电池记录相关信息显示控件
+	public EditText TimeIntervalInput;//电池信息记录时间间隔输入控件
+	public static int nti;//电池信息记录时间间隔值
+	private int mq, mv, me;//电量、电压、电流
+	private double mt;//温度
+	private ImageButton state = null;//电池信息数据记录状态拨钮
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		//初始化UI
 		setContentView(R.layout.main);
-		
 		state = (ImageButton) findViewById(R.id.state);
 		state.setOnClickListener(new ocl());
-		
 		TimeIntervalName = (TextView) findViewById(R.id.TimeIntervalName);	
 		TimeIntervalInput = (EditText) findViewById(R.id.TimeIntervalInput);
-		
-		TV = (TextView) findViewById(R.id.TV);// 
-		
+		TV = (TextView) findViewById(R.id.TV);//
 		BI = (TextView) findViewById(R.id.BI);//
-
+		//创建电池信息数据库
 		try {
 			//db = SQLiteDatabase.openOrCreateDatabase("/data/data/com.cfzz.abwsmt/databases/BatteryDB.db", null);//
 			db = openOrCreateDatabase("BatteryDB", MODE_PRIVATE, null);
 
 		} catch (SQLException e) {
 		}
-
+		//电池信息Handler Timer控制，每秒刷新
 		ahandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				mq = BatteryQuantityUtils.getQuantityFile();// 
 				mv = BatteryVoltageUtils.getVoltageFile();// 
 				me = BatteryElectricUtils.getElectricFile();//
-				mt = BatteryTemperatureUtils.getTemperatureFile()/10.0;// 
-								
+				mt = BatteryTemperatureUtils.getTemperatureFile()/10.0;//
 				BI.setText("Level:   " + mq + "%" + "\n" +
 				           "Voltage:   " + mv + "mV" + "\n" +
 						   "Electric:   " + me + "mA" + "\n" +
@@ -106,6 +96,7 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 				Message message = new Message();
 				message.what = 1;
 				ahandler.sendMessage(message);
+				//充电到100%自动关闭记录服务
 				/*if(BatteryQuantityUtils.getQuantityFile() == 100 && BatteryStatusUtils.getBatteryTemp() == "Full")
 				{
 					int fme = (me + BatteryElectricUtils.getElectricFile())/2;
@@ -113,37 +104,35 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 					{
 						//CFBatteryThread.interrupted();
 						try{
-						state.callOnClick();// 
+							state.callOnClick();//
 						}catch(Exception e)
 						{
-						//AndroidBatteryWithServiceActivity.this.stopService(localIntent);
+							AndroidBatteryWithServiceActivity.this.stopService(localIntent);
 						}
 					}
 				}*/
-				
-				
 			}
 		};
 		atimer.schedule(atask, 0, 1000);// 
 		
-		// 
-		
-		this.button = (Button) this.findViewById(R.id.my_button);// 
-		// 
-		this.button.setOnClickListener(new OnClickListener() {
+		//电池记录数据表清空
+		this.clearButton = (Button) this.findViewById(R.id.my_button);//
+		this.clearButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+			    //判断是否正在记录数据
 				if (is == true) {
-					state.callOnClick();// 
+					state.callOnClick();//关闭数据记录开关
 					try {
-						db.execSQL("DROP TABLE IF EXISTS Batterylog");//
-						//
-						db.execSQL("Create Table Batterylog(Time text,Quantity text,Voltage text,Electric text,Temperature text,Status text)");//
+                        //删除原有数据表
+						db.execSQL("DROP TABLE IF EXISTS Batterylog");
+						//新建数据表
+						db.execSQL("Create Table Batterylog(Time text,Quantity text,Voltage text,Electric text,Temperature text,Status text)");
 					} catch (Exception e) {
 						db.execSQL("Create Table Batterylog(Time text,Quantity text,Voltage text,Electric text,Temperature text,Status text)");//
 					}
 				} else {
 					try {
-						db.execSQL("DROP TABLE IF EXISTS Batterylog");//
+						db.execSQL("DROP TABLE IF EXISTS Batterylog");
 						db.execSQL("Create Table Batterylog(Time text,Quantity text,Voltage text,Electric text,Temperature text,Status text)");//
 					} catch (Exception e) {
 						db.execSQL("Create Table Batterylog(Time text,Quantity text,Voltage text,Electric text,Temperature text,Status text)");//
@@ -151,10 +140,9 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 				}
 			}
 		});
-
-		button01 = (Button) this.findViewById(R.id.Button01);// 
-		// 
-		button01.setOnClickListener(new OnClickListener() {
+		//电池记录信息表格导出
+		outputButton = (Button) this.findViewById(R.id.Button01);//
+		outputButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (is == true) {
 					state.callOnClick();// 
@@ -176,60 +164,48 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 			}
 		});
 
-		// 
-
-
-		button02 = (Button) this.findViewById(R.id.Button02);//
-		//
-		button02.setOnClickListener(new OnClickListener() {
+		//开启屏幕常亮
+		screenOnButton = (Button) this.findViewById(R.id.Button02);//
+		screenOnButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
 						WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 				PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 				//控制灭屏
 				PowerManager.WakeLock wl = pm.newWakeLock(
-						PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "MyTest1");
+						PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "MyBatteryTest");
 				wl.acquire();//
 			}
 		});
 		
 	}
 
-	// 
 	public static boolean is = false;
 	Intent localIntent;
-	// 
-	
-	
+	//电池曲线数据记录图形化开关控制
 	class ocl implements OnClickListener {
-
-		
 		public void onClick(View v) {
-
+			//置为关闭状态
 			if (v.getId() == R.id.state && is == true) {
-				// 
 				state.setImageDrawable(getResources().getDrawable(
 						R.drawable.close));
-
 				try{
+					//关闭后台曲线数据记录服务
 					AndroidBatteryWithServiceActivity.this.stopService(localIntent);
 				}catch(Exception e)
 				{
-				    
+					Log.e(TAG, "Service stop fail : " + e.getMessage());
 				}
-				
 				is = false;
-
+			//置为开启状态
 			} else if (v.getId() == R.id.state && is == false) {
-				// 
-				
-
 				try
                 {
-                    db.rawQuery("select * from Batterylog", null);
+                    db.rawQuery("select * from Batterylog", null);//验证Batterylog数据表是否存在
                     state.setImageDrawable(getResources().getDrawable(
     						R.drawable.open));
-                    nti = Integer.parseInt(TimeIntervalInput.getText().toString());
+                    nti = Integer.parseInt(TimeIntervalInput.getText().toString());//获取电池信息记录间隔
+					//开启后台曲线数据记录服务
                     AndroidBatteryWithServiceActivity localCFBatteryActivity = AndroidBatteryWithServiceActivity.this;			
     			    localIntent = new Intent(localCFBatteryActivity, com.cfzz.abwsmt.BatteryLogMTKService.class);
     				localCFBatteryActivity.startService(localIntent);
@@ -237,18 +213,15 @@ public class AndroidBatteryWithServiceActivity extends Activity {
                 }
                 catch(Exception e)
                 {
-                    //state.callOnClick();// 
+                    //提示未创建数据
                     new AlertDialog.Builder(AndroidBatteryWithServiceActivity.this).setCancelable(false)
                     .setPositiveButton("Fail to write data,please clear data", null).show();
                 }
-				
-				
-
 				is = true;
 			}
 		}
 	}
-	
+	//导出数据方法
 	private synchronized void outputData()
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.getDefault());// 
@@ -258,7 +231,7 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 		Log.v(TAG, "Batterylog: " + c);
 		if(c.getCount()!=0)
 		{
-			SqliteToCsv.ExportToCSV(c, fname); // 
+			SqliteToCsv.ExportToCSV(c, fname); //将数据表写入到CSV文件
 			new AlertDialog.Builder(AndroidBatteryWithServiceActivity.this).setCancelable(false)
 			.setPositiveButton("Output success", null).show();
 		}
@@ -267,24 +240,20 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 			new AlertDialog.Builder(AndroidBatteryWithServiceActivity.this).setCancelable(false)
 			.setPositiveButton("Data table empty,no to output", null).show();
 		}
-		
-		
 	}
 	
 	@Override	
 	public void onDestroy() // 
 	{
-
 		try{
 				atimer.cancel();// 
-				//atimer = null;
+				atimer = null;
 				atask.cancel();
 				atask = null;
-		}
-		catch(Exception e){
+		}catch(Exception e){
 				Log.v(TAG, "Test activity has not started!");
 		}
-		
+		//退出应用关闭电池信息记录服务
 		/*if (is == true) {
 			try{
 					AndroidBatteryWithServiceActivity.this.stopService(localIntent);
@@ -293,7 +262,6 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 					Log.v(TAG, "No test Mission!");
 				}
 		}*/
-
 		super.onDestroy();
 	}
 }

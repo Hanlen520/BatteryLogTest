@@ -3,9 +3,9 @@
     package="com.cfzz.abwsmt"
 	
     android:installLocation="auto"
-    android:versionCode="20180206"
-    android:versionName="1.0" >
-    <!-- android:sharedUserId="android.uid.system" -->
+    android:versionCode="20180605"
+    android:versionName="1.0"
+    android:sharedUserId="android.uid.system"><!-- AndroidN以上系统需要加此配置，否则没有权限获取电池信息 -->
 
     <uses-sdk
         android:minSdkVersion="23"

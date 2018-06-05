@@ -12,18 +12,16 @@ import android.util.Log;
 
 public class BatteryQuantityUtils 
 {
-
-	//static AndroidBatteryLogSPActivity mAndroidBatteryLogSPActivity;
-
-
+    private static final String TAG = "BatteryQuantityUtils";
+    //获取电池电量值方法
     static public int getQuantityFile()//
     {    
         int BatteryQ = -1;
     	FileInputStream fin = null;
     	try {            
                		  			
-        		File fileName = new File("/sys/class/power_supply/battery/capacity"); //SP
-    			//File fileName = new File("/sys/class/power_supply/battery/capacity");//MTK
+        		//File fileName = new File("/sys/class/power_supply/battery/capacity"); //SP平台
+    			File fileName = new File("/sys/class/power_supply/battery/capacity");//MTK平台
                 if(fileName.exists()) {
                 	Log.v("TAG","FileName exists!");
                     try{
@@ -35,12 +33,10 @@ public class BatteryQuantityUtils
                             String default_qt = new String(buffer, "UTF-8");   
                             BatteryQ = Integer.parseInt(default_qt.trim());
                             Log.v("TAG", "BatteryQ:   " + BatteryQ);
-                            //EC.setText("Charging Electric:   " + BatteryT + "鈩�);
-                        
                     } catch(FileNotFoundException e) {
-                        //LogSprd.e("/sys/class/rtc/rtc0/default_time.");
+                        Log.e(TAG, "/sys/class/power_supply/battery/capacity FileNotFoundException : " + e.getMessage());
                     } catch(NumberFormatException e) {
-                        //LogSprd.e("!!!!!!!number format error.!!!!!!!!");
+                        Log.e(TAG, "NumberFormatException : " + e.getMessage());
                         e.printStackTrace();
                     }
                     finally {
@@ -48,7 +44,6 @@ public class BatteryQuantityUtils
                     }                    
                 } 
                 else{
-                	
                 	BatteryQ = -1;
                 }
     		    		

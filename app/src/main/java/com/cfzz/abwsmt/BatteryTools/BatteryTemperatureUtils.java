@@ -12,18 +12,16 @@ import android.util.Log;
 
 public class BatteryTemperatureUtils 
 {
-
-	//static AndroidBatteryLogSPActivity mAndroidBatteryLogSPActivity;
-
-
+    private static final String TAG = "BatteryTemperatureUtils";
+    //获取电池温度信息
     static public double getTemperatureFile()//
     {    
         double BatteryT = -2732;
         FileInputStream fin = null;
     	try {            
                		  			
-        		File fileName = new File("/sys/class/power_supply/battery/temp"); //SP
-    			//File fileName = new File("/sys/class/power_supply/battery/batt_temp");//MTK
+        		//File fileName = new File("/sys/class/power_supply/battery/temp"); //SP
+    			File fileName = new File("/sys/class/power_supply/battery/batt_temp");//MTK平台
                 if(fileName.exists()) {
                 	Log.v("TAG","FileName exists!");
                     try{
@@ -35,21 +33,16 @@ public class BatteryTemperatureUtils
                             String default_tp = new String(buffer, "UTF-8");   
                             BatteryT = Double.parseDouble(default_tp.trim());
                             Log.v("TAG", "BatteryT:   " + BatteryT);
-                            //EC.setText("Charging Electric:   " + BatteryT + "鈩�);
-                        
                     } catch(FileNotFoundException e) {
-                        //LogSprd.e("/sys/class/rtc/rtc0/default_time.");
+                        Log.e(TAG, "/sys/class/power_supply/battery/batt_temp NumberFormatException : " + e.getMessage());
                     } catch(NumberFormatException e) {
-                        //LogSprd.e("!!!!!!!number format error.!!!!!!!!");
-                        e.printStackTrace();
+                        Log.e(TAG, "NumberFormatException : " + e.getMessage());
                     }
                     finally {
                     	fin.close();
                     }
-                    
                 } 
                 else{
-                	
                 	BatteryT = -2732;
                 }
     		    		
