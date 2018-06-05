@@ -1,0 +1,48 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\bestpower\\225_App_Project\\B5_Test_App\\BatteryLogTest\\app\\build\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\bestpower\\225_App_Project\\B5_Test_App\\BatteryLogTest\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "4,5,3,7,6,9,8",
+                        "startColumns": "4,4,4,1,1,1,1",
+                        "startOffsets": "123,181,59,268,226,460,410",
+                        "endColumns": "56,46,62,140,40,61,48",
+                        "endOffsets": "175,223,117,407,265,520,457"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,112,159,222,366,410,475",
+                        "endColumns": "56,46,62,143,43,64,51",
+                        "endOffsets": "107,154,217,361,405,470,522"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "D:\\DevelopTools\\old_as_projects\\AS_project\\AndroidBatteryLogWithServiceMTK\\app\\build\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "D:\\DevelopTools\\old_as_projects\\AS_project\\AndroidBatteryLogWithServiceMTK\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "4,5,3,7,6,9,8",
+                        "startColumns": "4,4,4,1,1,1,1",
+                        "startOffsets": "123,181,59,268,226,460,410",
+                        "endColumns": "56,46,62,140,40,61,48",
+                        "endOffsets": "175,223,117,407,265,520,457"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,112,159,222,366,410,475",
+                        "endColumns": "56,46,62,143,43,64,51",
+                        "endOffsets": "107,154,217,361,405,470,522"
+                    }
+                }
+            ]
+        }
+    ]
+}

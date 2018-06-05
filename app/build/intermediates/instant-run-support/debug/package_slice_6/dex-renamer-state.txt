@@ -1,0 +1,4 @@
+#Mon Mar 26 17:17:35 CST 2018
+base.0=D\:\\DevelopTools\\old_as_projects\\AS_project\\AndroidBatteryLogWithServiceMTK\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\6
+path.0=classes.dex
+renamed.0=classes.dex

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroidBatteryLogSP</string>
+    <string name="clearData">清空已记录的数据</string>
+    <string name="hello">AndroidBatteryLogMTKActivity</string>
+    <string name="operationInstruction">        欢迎使用电池实时信息记录软件 ：在点击【ON】按钮前，在确保已导出上次记录数据的前提下，请先点击【清空已记录的数据】按钮 。若第一次使用，请先点击【清空已记录的数据】按钮。</string>
+    <string name="outputData">导出数据</string>
+    <string name="pleaseinputtimeintarval">请输入数据记录间隔（s）</string>
+    <string name="timeintervalname">数据记录间隔</string>
+</resources>
