@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 24
     buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.cfzz.abwsmt"
         minSdkVersion 23
-        targetSdkVersion 26
+        targetSdkVersion 24
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8

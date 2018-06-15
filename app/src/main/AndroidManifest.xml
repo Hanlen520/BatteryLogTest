@@ -7,10 +7,6 @@
     android:versionName="1.0"
     android:sharedUserId="android.uid.system"><!-- AndroidN以上系统需要加此配置，否则没有权限获取电池信息 -->
 
-    <uses-sdk
-        android:minSdkVersion="23"
-        android:targetSdkVersion="26" />
-   
     <uses-permission android:name="android.permission.READ_FRAME_BUFFER"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />    

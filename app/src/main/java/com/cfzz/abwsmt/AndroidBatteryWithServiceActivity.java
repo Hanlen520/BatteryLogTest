@@ -51,6 +51,7 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 	private int mq, mv, me;//电量、电压、电流
 	private double mt;//温度
 	private ImageButton state = null;//电池信息数据记录状态拨钮
+	public PowerManager.WakeLock wl;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -171,10 +172,17 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 				getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
 						WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 				PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-				//控制灭屏
-				PowerManager.WakeLock wl = pm.newWakeLock(
+				wl = pm.newWakeLock(
 						PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "MyBatteryTest");
-				wl.acquire();//
+				if(screenOnButton.getText().toString().equals("开启屏幕常亮")) {
+					//控制常亮
+					wl.acquire();//
+					screenOnButton.setText("关闭屏幕常亮");
+				}else{
+					//控制自动延迟灭屏
+					wl.release();
+					screenOnButton.setText("开启屏幕常亮");
+				}
 			}
 		});
 		
@@ -245,6 +253,7 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 	@Override	
 	public void onDestroy() // 
 	{
+		super.onDestroy();
 		try{
 				atimer.cancel();// 
 				atimer = null;
@@ -262,6 +271,11 @@ public class AndroidBatteryWithServiceActivity extends Activity {
 					Log.v(TAG, "No test Mission!");
 				}
 		}*/
-		super.onDestroy();
+		try {
+			wl.release();
+		}catch (Exception e){
+			Log.e(TAG, "No screen wakelock on!");
+		}
+
 	}
 }

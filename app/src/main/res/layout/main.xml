@@ -1,108 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
+    android:orientation="vertical">
     <TextView
         android:id="@+id/Guide"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:textSize="8px"
-        android:text="@string/operationInstruction" />
-
+        android:textSize="20px"
+        android:text="@string/operationInstruction"
+        android:layout_weight="2"/>
     <ImageButton
         android:id="@+id/state"
-        android:layout_width="160sp"
-        android:layout_height="40sp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/TimeIntervalName"
-        android:layout_marginTop="28dp"
-        android:src="@drawable/close" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/close"
+        android:layout_weight="1"/>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        android:layout_weight="2" >
 
+        <LinearLayout
+            android:id="@+id/linearLayout01"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+            <TextView
+                android:id="@+id/TimeIntervalName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/timeintervalname"
+                android:layout_gravity="center"
+                android:textSize="16dp" />
+            <EditText
+                android:id="@+id/TimeIntervalInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/pleaseinputtimeintarval"
+                android:inputType="numberDecimal"
+                android:text="10"
+                android:textSize="16dp" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/Button02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="8dp"
+            android:text="开启屏幕常亮"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="2" >
+        <Button
+            android:id="@+id/my_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clearData"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/Button01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/outputData"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical"
+        android:layout_weight="4">
         <TextView
             android:id="@+id/BI"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="10dp"
             android:textSize="20px" />
-
         <TextView
             android:id="@+id/TV"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:singleLine="true"
-            android:layout_marginBottom="0dp"
             android:textSize="20px" />
     </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/TimeIntervalName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/Guide"
-        android:layout_marginTop="10dp"
-        android:text="@string/timeintervalname"
-        android:textSize="16dp"
-        android:layout_toLeftOf="@+id/my_button" />
-
-    <Button
-        android:id="@+id/my_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout1"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="40dp"
-        android:text="@string/clearData" />
-
-    <Button
-        android:id="@+id/Button01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/my_button"
-        android:layout_marginBottom="40dp"
-        android:layout_toLeftOf="@+id/my_button"
-        android:text="@string/outputData" />
-
-    <EditText
-        android:id="@+id/TimeIntervalInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/TimeIntervalName"
-        android:layout_alignParentRight="true"
-        android:hint="@string/pleaseinputtimeintarval"
-        android:inputType="numberDecimal"
-        android:text="10"
-        android:textSize="16dp"
-        android:layout_toRightOf="@+id/TimeIntervalName" />
-
-    <Button
-        android:id="@+id/Button02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/state"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:textSize="12dp"
-        android:text="开启屏幕常亮" />
-
-
-</RelativeLayout>
+</LinearLayout>
